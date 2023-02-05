@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.InputSystem;
 
 public enum SymmetryType
 {
@@ -21,12 +22,47 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _wallPrefab, _cornerPrefab;
     [SerializeField] private GameObject _playerPrefab;
 
+    private bool isGameInProgress = false;
+    private int connectedPlayers = 0;
+
     public Cell[,] Cells;
     public Bond[] Bonds;
 
     private void Awake()
     {
         GenerateLevel();
+    }
+
+    private void Start()
+    {
+        Instance = this;
+    }
+
+    public void PlayerJoined(Player newPlayer)
+    {
+        Vector2Int[] startingLocs = { new Vector2Int(0, 0), new Vector2Int(_width - 1, _height - 1), new Vector2Int(_width - 1, 0), new Vector2Int(0, _height - 1) };
+
+        connectedPlayers++;
+        newPlayer.SetPlayerNum(connectedPlayers);
+        Vector2Int selectedLoc = startingLocs[connectedPlayers - 1];
+        newPlayer.SetOccupiedCell(Cells[selectedLoc.x, selectedLoc.y]);
+
+        if (connectedPlayers >= SettingsStorage.numPlayers)
+        {
+            StartGame();
+        }
+    }
+
+    public void StartGame()
+    {
+        isGameInProgress = true;
+        PlayerInputManager.instance.DisableJoining();
+    }
+
+    private void EndGame()
+    {
+        isGameInProgress = false;
+        PlayerInputManager.instance.EnableJoining();
     }
 
     private void GenerateLevel()
@@ -38,13 +74,13 @@ public class GameManager : MonoBehaviour
         GenerateDirt();
         GenerateWater();
         GenerateRock();
-        GeneratePlayers();
+        //GeneratePlayers();
     }
 
     public void RegenerateLevel()
     {
         foreach (Transform child in this.transform) {
-             GameObject.Destroy(child.gameObject);
+            GameObject.Destroy(child.gameObject);
         }
 
         GenerateLevel();
@@ -145,49 +181,49 @@ public class GameManager : MonoBehaviour
 
         switch (_mapSymmetry)
         {
-        case SymmetryType.None:
-            break;
+            case SymmetryType.None:
+                break;
 
-        case SymmetryType.Regular:
-            for (int i = 0; i < _waterPerPlayer; i++)
-            {
-                int x;
-                int y;
-
-                while (true)
+            case SymmetryType.Regular:
+                for (int i = 0; i < _waterPerPlayer; i++)
                 {
-                    x = Random.Range(0, _width / 2 - 1);
-                    y = Random.Range(0, _height / 2 - 1);
-                    
-                    Cell cell = Cells[x, y];
+                    int x;
+                    int y;
 
-                    if (cell.Type != CellType.Dirt) continue;
+                    while (true)
+                    {
+                        x = Random.Range(0, _width / 2 - 1);
+                        y = Random.Range(0, _height / 2 - 1);
 
-                    CellType leftType = x > 0 ? Cells[x - 1, y].Type : CellType.Rock;
-                    CellType rightType = Cells[x + 1, y].Type;
-                    CellType upType = Cells[x, y + 1].Type;
-                    CellType downType = y > 0 ? Cells[x, y - 1].Type : CellType.Rock;
+                        Cell cell = Cells[x, y];
 
-                    if (leftType == CellType.Water) continue;
-                    if (rightType == CellType.Water) continue;
-                    if (upType == CellType.Water) continue;
-                    if (downType == CellType.Water) continue;
+                        if (cell.Type != CellType.Dirt) continue;
 
-                    break;
+                        CellType leftType = x > 0 ? Cells[x - 1, y].Type : CellType.Rock;
+                        CellType rightType = Cells[x + 1, y].Type;
+                        CellType upType = Cells[x, y + 1].Type;
+                        CellType downType = y > 0 ? Cells[x, y - 1].Type : CellType.Rock;
+
+                        if (leftType == CellType.Water) continue;
+                        if (rightType == CellType.Water) continue;
+                        if (upType == CellType.Water) continue;
+                        if (downType == CellType.Water) continue;
+
+                        break;
+                    }
+
+                    Cells[x, y].AddWater();
+                    Cells[_width - x - 1, y].AddWater();
+                    Cells[x, _height - y - 1].AddWater();
+                    Cells[_width - x - 1, _height - y - 1].AddWater();
                 }
+                break;
 
-                Cells[x, y].AddWater();
-                Cells[_width - x - 1, y].AddWater();
-                Cells[x, _height - y - 1].AddWater();
-                Cells[_width - x - 1, _height - y - 1].AddWater();
-            }
-            break;
+            case SymmetryType.Diagonal:
+                break;
 
-        case SymmetryType.Diagonal:
-            break;
-
-        default:
-            break;
+            default:
+                break;
         }
     }
 
@@ -195,61 +231,62 @@ public class GameManager : MonoBehaviour
     {
         switch (_mapSymmetry)
         {
-        case SymmetryType.None:
-            break;
+            case SymmetryType.None:
+                break;
 
-        case SymmetryType.Regular:
-            for (int i = 0; i < _rocksPerPlayer; i++)
-            {
-                int x;
-                int y;
-
-                while (true)
+            case SymmetryType.Regular:
+                for (int i = 0; i < _rocksPerPlayer; i++)
                 {
-                    x = Random.Range(0, _width / 2);
-                    y = Random.Range(0, _height / 2);
-                    
-                    Cell cell = Cells[x, y];
+                    int x;
+                    int y;
 
-                    if (cell.Type != CellType.Dirt) continue;
+                    while (true)
+                    {
+                        x = Random.Range(0, _width / 2);
+                        y = Random.Range(0, _height / 2);
 
-                    // CellType leftType = x > 0 ? Cells[x - 1, y].Type : CellType.Rock;
-                    // CellType rightType = Cells[x + 1, y].Type;
-                    // CellType upType = Cells[x, y + 1].Type;
-                    // CellType downType = y > 0 ? Cells[x, y - 1].Type : CellType.Rock;
+                        Cell cell = Cells[x, y];
 
-                    break;
+                        if (cell.Type != CellType.Dirt) continue;
+
+                        // CellType leftType = x > 0 ? Cells[x - 1, y].Type : CellType.Rock;
+                        // CellType rightType = Cells[x + 1, y].Type;
+                        // CellType upType = Cells[x, y + 1].Type;
+                        // CellType downType = y > 0 ? Cells[x, y - 1].Type : CellType.Rock;
+
+                        break;
+                    }
+
+                    Cells[x, y].AddRock();
+                    Cells[_width - x - 1, y].AddRock();
+                    Cells[x, _height - y - 1].AddRock();
+                    Cells[_width - x - 1, _height - y - 1].AddRock();
                 }
+                break;
 
-                Cells[x, y].AddRock();
-                Cells[_width - x - 1, y].AddRock();
-                Cells[x, _height - y - 1].AddRock();
-                Cells[_width - x - 1, _height - y - 1].AddRock();
-            }
-            break;
+            case SymmetryType.Diagonal:
+                break;
 
-        case SymmetryType.Diagonal:
-            break;
-
-        default:
-            break;
+            default:
+                break;
         }
     }
 
-    private void GeneratePlayers()
-    {
-        // THIS IS WHERE I WOULD READ THE NUMBER OF PLAYERS IN GAME, BUT AS I DO NOT KNOW IF THAT IS IN THIS BRANCH I'LL JUST LEAVE THIS MEMO HERE
-        int numPlayers = 4;
-        // ---------------------
+    //private void GeneratePlayers()
+    //{
+    //    // THIS IS WHERE I WOULD READ THE NUMBER OF PLAYERS IN GAME, BUT AS I DO NOT KNOW IF THAT IS IN THIS BRANCH I'LL JUST LEAVE THIS MEMO HERE
+    //    int numPlayers = 4;
+    //    // ---------------------
 
-        Vector2Int[] startingLocs = { new Vector2Int(0, 0), new Vector2Int(_width - 1, _height - 1), new Vector2Int(_width - 1, 0), new Vector2Int(0, _height - 1) };
+    //    Vector2Int[] startingLocs = { new Vector2Int(0, 0), new Vector2Int(_width - 1, _height - 1), new Vector2Int(_width - 1, 0), new Vector2Int(0, _height - 1) };
 
-        for (int i = 0; i < numPlayers; i++)
-        {
-            Player newPlayer = Instantiate(_playerPrefab).GetComponent<Player>();
-            newPlayer.SetOccupiedCell(Cells[startingLocs[i].x, startingLocs[i].y]);
-        }
-    }
+    //    for (int i = 0; i < numPlayers; i++)
+    //    {
+    //        Player newPlayer = Instantiate(_playerPrefab).GetComponent<Player>();
+    //        newPlayer.SetOccupiedCell(Cells[startingLocs[i].x, startingLocs[i].y]);
+    //        newPlayer.SetPlayerNum(i + 1);
+    //    }
+    //}
 
     private void CullBranches()
     {
@@ -289,5 +326,10 @@ public class GameManager : MonoBehaviour
         bond.Player = 0;
 
         return false;
+    }
+
+    public bool GetIsGameInProgress()
+    {
+        return isGameInProgress;
     }
 }
