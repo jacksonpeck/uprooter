@@ -23,7 +23,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _playerPrefab;
 
     private bool isGameInProgress = false;
-    private int connectedPlayers = 0;
+    public bool GameOver = false;
+    public List<Player> connectedPlayers = new List<Player>();
 
     public Cell[,] Cells;
     public Bond[] Bonds;
@@ -35,8 +36,33 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        CullRoots();
-        UpdateRoots();
+        if (isGameInProgress && !GameOver)
+        {
+            CullRoots();
+            UpdateRoots();
+            CheckPlayers();
+        }
+    }
+
+    private void CheckPlayers()
+    {
+        List<Player> killPlayers = new List<Player>();
+        foreach(Player player in connectedPlayers)
+        {
+            if (!player.occupiedCell.IsConnected(player.playerNum))
+            {
+                killPlayers.Add(player);
+            }
+        }
+        foreach (Player player in killPlayers)
+        {
+            connectedPlayers.Remove(player);
+            Destroy(player.gameObject);
+        }
+        if (connectedPlayers.Count <= 1)
+        {
+            SetGameOver();
+        }
     }
 
     private void Start()
@@ -48,12 +74,12 @@ public class GameManager : MonoBehaviour
     {
         Vector2Int[] startingLocs = { new Vector2Int(0, 0), new Vector2Int(_width - 1, _height - 1), new Vector2Int(_width - 1, 0), new Vector2Int(0, _height - 1) };
 
-        connectedPlayers++;
-        newPlayer.SetPlayerNum(connectedPlayers);
-        Vector2Int selectedLoc = startingLocs[connectedPlayers - 1];
+        connectedPlayers.Add(newPlayer);
+        newPlayer.SetPlayerNum(connectedPlayers.Count);
+        Vector2Int selectedLoc = startingLocs[connectedPlayers.Count - 1];
         newPlayer.SetOccupiedCell(Cells[selectedLoc.x, selectedLoc.y]);
 
-        if (connectedPlayers >= SettingsStorage.numPlayers)
+        if (connectedPlayers.Count >= SettingsStorage.numPlayers)
         {
             StartGame();
         }
@@ -392,5 +418,10 @@ public class GameManager : MonoBehaviour
     public bool GetIsGameInProgress()
     {
         return isGameInProgress;
+    }
+
+    public void SetGameOver()
+    {
+        GameOver = true;
     }
 }
