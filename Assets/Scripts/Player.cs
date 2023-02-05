@@ -213,6 +213,14 @@ public class Player : MonoBehaviour
         return;
     }
 
+    private void ClearOpponentRoots(Cell cell)
+    {
+        if (cell.BondLeft != null && cell.BondLeft.Player != playerNum) cell.BondLeft.Player = 0;
+        if (cell.BondRight != null && cell.BondRight.Player != playerNum) cell.BondRight.Player = 0;
+        if (cell.BondUp != null && cell.BondUp.Player != playerNum) cell.BondUp.Player = 0;
+        if (cell.BondDown != null && cell.BondDown.Player != playerNum) cell.BondDown.Player = 0;
+    }
+
     private void Move(Direction moveDir)
     {
         // We use the assumption that in any given bond, Cell1 will be RIGHT or UP based on the verticality
@@ -221,8 +229,8 @@ public class Player : MonoBehaviour
         if (targetBond != null)
         {
             targetBond.Player = playerNum;
-            Cell targetCell = targetBond.OtherCell(occupiedCell);
-            SetOccupiedCell(targetCell);
+            SetOccupiedCell(targetBond.OtherCell(occupiedCell));
+            ClearOpponentRoots(occupiedCell);
         }
     }
 
