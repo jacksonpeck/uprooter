@@ -6,8 +6,9 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     // The ID number for this player. Player 1, Player 2, etc.
-    [SerializeField] private int playerNum;
-    [SerializeField] private Uprooter playerController;
+    private int playerNum = 0;
+    private Uprooter playerController;
+    [SerializeField] private Animator playerAnimator;
 
     private enum Direction
     {
@@ -22,11 +23,20 @@ public class Player : MonoBehaviour
     float actionTimer = 0;
     private bool executingAction = false;
 
+    private Vector2 moveVec;
+
+    public void OnMove(InputAction.CallbackContext ctx) => moveVec = ctx.ReadValue<Vector2>();
+
     private Cell occupiedCell;
 
     private void Awake()
     {
         playerController = new Uprooter();
+    }
+
+    private void Start()
+    {
+        GameManager.Instance.PlayerJoined(this);
     }
 
     private void OnEnable()
@@ -41,8 +51,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        Vector2 currentMove = playerController.Player.Move.ReadValue<Vector2>();
-        Direction inputDir = DisambiguateInputVector(currentMove);
+        Direction inputDir = DisambiguateInputVector(moveVec);
 
         if (inputDir != Direction.NONE)
         {
@@ -64,7 +73,7 @@ public class Player : MonoBehaviour
             if (actionTimer <= 0)
             {
                 // Timer has expired, current action is complete! Move to the cell indicated by currentMove.
-                Move(currentMove);
+                Move(inputDir);
 
                 executingAction = false;
             }
@@ -106,14 +115,43 @@ public class Player : MonoBehaviour
         return Direction.NONE;
     }
 
-    public void Move(Vector2 moveDir)
+    private void Move(Direction moveDir)
     {
-        
+        switch (moveDir)
+        {
+            case Direction.LEFT:
+                {
+                    if (SetOccupiedCell(occupiedCell.BondLeft.Cell1).Equals(occupiedCell)) ;
+                    {
+
+                    }
+                    SetOccupiedCell(occupiedCell.BondLeft.Cell1);
+                    break;
+                }
+            case Direction.RIGHT:
+                {
+                    break;
+                }
+            case Direction.UP:
+                {
+                    break;
+                }
+            case Direction.DOWN:
+                {
+                    break;
+                }
+        }
     }
 
     public void SetOccupiedCell(Cell newCell)
     {
         occupiedCell = newCell;
         transform.position = newCell.transform.position;
+    }
+
+    public void SetPlayerNum(int newNum)
+    {
+        playerNum = newNum;
+        playerAnimator.SetInteger("Color", newNum);
     }
 }

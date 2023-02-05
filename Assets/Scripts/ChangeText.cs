@@ -20,4 +20,4 @@ public class ChangeText : MonoBehaviour
         textDisplay.text = "";
         textDisplay.text = num.ToString() + " Players";
     }
-    }
+}
