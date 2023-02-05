@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     // The ID number for this player. Player 1, Player 2, etc.
-    private int playerNum = 0;
+    public int playerNum = 0;
     private Uprooter playerController;
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private GameObject actIndicFill, actIndicOutline;
@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext ctx) => moveVec = ctx.ReadValue<Vector2>();
 
-    private Cell occupiedCell;
+    public Cell occupiedCell;
     [SerializeField] private float actRootToRoot, actRootConnectRoot, actRootToEmpty, actRootToEnemy, actRootToRock;
 
     private void Awake()

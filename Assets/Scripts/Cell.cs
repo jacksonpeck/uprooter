@@ -100,4 +100,21 @@ public class Cell : MonoBehaviour
 
         return 0;
     }
+
+    public bool IsConnected(int player)
+    {
+        if (HasWater())
+            return true;
+            
+        if (BondLeft != null && BondLeft.Player == player)
+            return true;
+        if (BondRight != null && BondRight.Player == player)
+            return true;
+        if (BondUp != null && BondUp.Player == player)
+            return true;
+        if (BondDown != null && BondDown.Player == player)
+            return true;
+
+        return false;
+    }
 }
