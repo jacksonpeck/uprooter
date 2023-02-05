@@ -57,6 +57,13 @@ public class GameManager : MonoBehaviour
         }
         foreach (Player player in killPlayers)
         {
+            foreach (Bond bond in Bonds)
+            {
+                if (bond.Player == player.playerNum)
+                {
+                    bond.Player = 0;
+                }
+            }
             connectedPlayers.Remove(player);
             Destroy(player.gameObject);
         }
