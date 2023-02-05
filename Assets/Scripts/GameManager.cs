@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        CullRoots();
+        //CullRoots();
         UpdateRoots();
     }
 

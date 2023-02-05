@@ -24,11 +24,21 @@ public class RootRenderer : MonoBehaviour
             return;
         }
 
-        if (left != right || right != up || up != down || down != left)
+        int[] playerNums = { left, right, up, down };
+        int playerNumCache = 0;
+        for (int i = 0; i < playerNums.Length; i++)
         {
-            _renderer.enabled = false;
-            Debug.Log("Error: A cell cannot contain a root for multiple players");
-            return;
+            if (playerNumCache > 0 && playerNums[i] > 0 && playerNumCache != playerNums[i])
+            {
+                _renderer.enabled = false;
+                Debug.Log("Error: A cell cannot contain a root for multiple players");
+                return;
+            }
+
+            if (playerNums[i] > 0)
+            {
+                playerNumCache = playerNums[i];
+            }
         }
 
         int rootCount = 0;
@@ -73,26 +83,26 @@ public class RootRenderer : MonoBehaviour
             {
                 if (up > 0)
                 {
-                    spriteIndex = (left - 1) * 5 + 1;
+                    spriteIndex = (down - 1) * 5 + 1;
                     this.transform.rotation = Quaternion.identity;
                 }
                 else
                 {
-                    spriteIndex = (left - 1) * 5 + 2;
+                    spriteIndex = (down - 1) * 5 + 2;
                     if (right > 0) this.transform.rotation = Quaternion.identity;
-                    if (left > 0) this.transform.rotation = Quaternion.Euler(0f, 0f, 270f);
+                    else if (left > 0) this.transform.rotation = Quaternion.Euler(0f, 0f, 270f);
                 }
             }
             else if (right > 0)
             {
                 if (left > 0)
                 {
-                    spriteIndex = (left - 1) * 5 + 1;
+                    spriteIndex = (right - 1) * 5 + 1;
                     this.transform.rotation = Quaternion.Euler(0f, 0f, 90f);
                 }
                 else
                 {
-                    spriteIndex = (left - 1) * 5 + 2;
+                    spriteIndex = (right - 1) * 5 + 2;
                     this.transform.rotation = Quaternion.Euler(0f, 0f, 90f);
                 }
             }
@@ -102,7 +112,6 @@ public class RootRenderer : MonoBehaviour
                 this.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
             }
             break;
-
         case 3:
             if (left <= 0)
             {
@@ -113,23 +122,26 @@ public class RootRenderer : MonoBehaviour
             {
                 spriteIndex = (left - 1) * 5 + 3;
                 if (down <= 0) this.transform.rotation = Quaternion.Euler(0f, 0f, 90f);
-                if (right <= 0) this.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
+                else if (right <= 0) this.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
                 else this.transform.rotation = Quaternion.Euler(0f, 0f, 270f);
             }
             break;
-
         case 4:
-            spriteIndex = (left - 1) * 5 + 4;
-            break;
-
+            {
+                spriteIndex = (left - 1) * 5 + 4;
+                break;
+            }
         default:
-            spriteIndex = 0;
-            Debug.Log("Error: I fucked up");
-            break;
+            {
+                spriteIndex = 0;
+                Debug.Log("Error: I fucked up");
+                break;
+            }
         }
 
         if (spriteIndex != _spriteIndex)
         {
+            Debug.Log(spriteIndex);
             _renderer.sprite = _rootSprites[spriteIndex];
             _spriteIndex = spriteIndex;
         }

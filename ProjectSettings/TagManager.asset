@@ -47,6 +47,9 @@ TagManager:
   - name: Water
     uniqueID: 3994414801
     locked: 0
+  - name: Roots
+    uniqueID: 3781685981
+    locked: 0
   - name: Player
     uniqueID: 4290205583
     locked: 0

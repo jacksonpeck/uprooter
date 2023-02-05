@@ -215,6 +215,7 @@ public class Player : MonoBehaviour
         Bond targetBond = BondFromDir(moveDir);
         if (targetBond != null)
         {
+            targetBond.Player = playerNum;
             SetOccupiedCell(targetBond.OtherCell(occupiedCell));
         }
     }
