@@ -17,7 +17,7 @@ public class WinnerIs : MonoBehaviour
     {
         switch( playerNum )
         {
-            case 2:
+            case 1:
                 newSprite = spriteGreen; 
                 break;
             case 3:
