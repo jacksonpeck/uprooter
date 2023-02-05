@@ -57,6 +57,11 @@ public class Cell : MonoBehaviour
         return _water != null;
     }
 
+    public Water GetWater()
+    {
+        return _water;
+    }
+
     public void AddRock()
     {
         _rock = Instantiate(_rockPrefab, this.transform).GetComponent<Rock>();

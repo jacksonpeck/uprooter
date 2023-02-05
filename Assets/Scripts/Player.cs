@@ -60,6 +60,11 @@ public class Player : MonoBehaviour
             return;
         }
 
+        if (occupiedCell.HasWater())
+        {
+            occupiedCell.GetWater().StartDraining();
+        }
+
         Direction inputDir = DisambiguateInputVector(moveVec);
 
         if (inputDir != Direction.NONE)
@@ -216,7 +221,8 @@ public class Player : MonoBehaviour
         if (targetBond != null)
         {
             targetBond.Player = playerNum;
-            SetOccupiedCell(targetBond.OtherCell(occupiedCell));
+            Cell targetCell = targetBond.OtherCell(occupiedCell);
+            SetOccupiedCell(targetCell);
         }
     }
 
