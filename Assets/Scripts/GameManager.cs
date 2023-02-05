@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public enum SymmetryType
 {
@@ -423,5 +424,6 @@ public class GameManager : MonoBehaviour
     public void SetGameOver()
     {
         GameOver = true;
+        SceneManager.LoadScene( "Winner" );
     }
 }
