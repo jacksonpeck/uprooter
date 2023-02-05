@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _rocksPerPlayer, _waterPerPlayer;
     [SerializeField] private GameObject _cellPrefab, _bondPrefab;
     [SerializeField] private GameObject _wallPrefab, _cornerPrefab;
+    [SerializeField] private GameObject _playerPrefab;
 
     public Cell[,] Cells;
     public Bond[] Bonds;
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
         GenerateDirt();
         GenerateWater();
         GenerateRock();
+        GeneratePlayers();
     }
 
     public void RegenerateLevel()
@@ -231,6 +233,21 @@ public class GameManager : MonoBehaviour
 
         default:
             break;
+        }
+    }
+
+    private void GeneratePlayers()
+    {
+        // THIS IS WHERE I WOULD READ THE NUMBER OF PLAYERS IN GAME, BUT AS I DO NOT KNOW IF THAT IS IN THIS BRANCH I'LL JUST LEAVE THIS MEMO HERE
+        int numPlayers = 4;
+        // ---------------------
+
+        Vector2Int[] startingLocs = { new Vector2Int(0, 0), new Vector2Int(_width - 1, _height - 1), new Vector2Int(_width - 1, 0), new Vector2Int(0, _height - 1) };
+
+        for (int i = 0; i < numPlayers; i++)
+        {
+            Player newPlayer = Instantiate(_playerPrefab).GetComponent<Player>();
+            newPlayer.SetOccupiedCell(Cells[startingLocs[i].x, startingLocs[i].y]);
         }
     }
 

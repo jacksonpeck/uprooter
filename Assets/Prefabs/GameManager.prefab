@@ -54,6 +54,7 @@ MonoBehaviour:
   _bondPrefab: {fileID: 3923592141477503564, guid: f6e918930ea789a43b3e289e7410b160, type: 3}
   _wallPrefab: {fileID: 1750841315989109744, guid: 30154a11790f67945b20ab339f4ce4eb, type: 3}
   _cornerPrefab: {fileID: 1750841315989109744, guid: d2531864df11ac640be7afba65dc5a2f, type: 3}
+  _playerPrefab: {fileID: 9130413470428691262, guid: bcbef54195f561c4da68d202056b1a3d, type: 3}
   Bonds: []
 --- !u!1 &2171289589580440246
 GameObject:

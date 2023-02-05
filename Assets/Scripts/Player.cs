@@ -17,14 +17,12 @@ public class Player : MonoBehaviour
         UP,
         DOWN
     }
-
     private float dirThreshold = 0.70f;
     private Direction prevDir = Direction.NONE;
-    private bool[] prevDirInputs = { false, false, false, false };
     float actionTimer = 0;
     private bool executingAction = false;
 
-    private int tempDebug = 0;
+    private Cell occupiedCell;
 
     private void Awake()
     {
@@ -62,7 +60,6 @@ public class Player : MonoBehaviour
 
             // Tick the timer.
             actionTimer -= Time.deltaTime;
-            Debug.Log(inputDir + " " + actionTimer);
 
             if (actionTimer <= 0)
             {
@@ -111,7 +108,12 @@ public class Player : MonoBehaviour
 
     public void Move(Vector2 moveDir)
     {
-        Debug.Log("MOVE " + tempDebug);
-        tempDebug++;
+        
+    }
+
+    public void SetOccupiedCell(Cell newCell)
+    {
+        occupiedCell = newCell;
+        transform.position = newCell.transform.position;
     }
 }
