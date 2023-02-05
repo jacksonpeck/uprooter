@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 175421247}
   - component: {fileID: 175421246}
   m_Layer: 0
-  m_Name: Uprooters_Sprites_54
+  m_Name: Wall Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -748,7 +748,7 @@ GameObject:
   - component: {fileID: 698506518}
   - component: {fileID: 698506521}
   m_Layer: 5
-  m_Name: Button
+  m_Name: HTP Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1416,7 +1416,7 @@ GameObject:
   - component: {fileID: 1697754016}
   - component: {fileID: 1697754019}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Credits Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

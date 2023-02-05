@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 164564064}
   - component: {fileID: 164564063}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Back to Main
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -318,7 +318,7 @@ GameObject:
   - component: {fileID: 477760128}
   - component: {fileID: 477760129}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: Player Num Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -422,7 +422,7 @@ GameObject:
   - component: {fileID: 554233701}
   - component: {fileID: 554233700}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: '"Players"'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -843,7 +843,7 @@ GameObject:
   - component: {fileID: 824811496}
   - component: {fileID: 824811495}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Start Game Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1084,7 +1084,7 @@ GameObject:
   - component: {fileID: 1640625030}
   - component: {fileID: 1640625029}
   m_Layer: 0
-  m_Name: Uprooters_Sprites_54
+  m_Name: Wall Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1425,7 +1425,7 @@ GameObject:
   - component: {fileID: 2031832192}
   - component: {fileID: 2031832191}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Num of Players
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

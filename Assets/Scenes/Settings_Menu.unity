@@ -279,7 +279,7 @@ GameObject:
   - component: {fileID: 554567253}
   - component: {fileID: 554567252}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Vol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -415,7 +415,7 @@ GameObject:
   - component: {fileID: 701488926}
   - component: {fileID: 701488927}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: Vol Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -670,7 +670,7 @@ GameObject:
   - component: {fileID: 1285552136}
   - component: {fileID: 1285552135}
   m_Layer: 0
-  m_Name: Uprooters_Sprites_54
+  m_Name: Wall Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -755,7 +755,7 @@ GameObject:
   - component: {fileID: 1311894766}
   - component: {fileID: 1311894765}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Settings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1110,7 +1110,7 @@ GameObject:
   - component: {fileID: 1936910871}
   - component: {fileID: 1936910870}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Back to Main
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

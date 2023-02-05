@@ -11,10 +11,9 @@ public class ChangeText : MonoBehaviour
 
 
     public float num;
-    //public Text textDisplay;
     public GameObject slider;
     private float index;
-    public SpriteRenderer renderer;
+    public new SpriteRenderer renderer;
     private Sprite newSprite;
 
     void Start()
@@ -27,8 +26,6 @@ public class ChangeText : MonoBehaviour
         num = slider.GetComponent<Slider>().value;
         index = num + 51;
         newSprite = null;
-        // textDisplay.text = "";
-        // textDisplay.text = num.ToString() + " Players";
 
         switch( index )
         {
@@ -47,6 +44,6 @@ public class ChangeText : MonoBehaviour
         }
 
         renderer.sprite = newSprite;
-        //renderer.transform.localScale = new Vector3( 800, 500, 0 );
+        renderer.transform.localScale = new Vector3( 20, 20, 0 );
     }
     }

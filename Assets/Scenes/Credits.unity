@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 69246031}
   - component: {fileID: 69246030}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Credits
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -340,7 +340,7 @@ GameObject:
   - component: {fileID: 338655099}
   - component: {fileID: 338655098}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Luke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -589,7 +589,7 @@ GameObject:
   - component: {fileID: 1086130195}
   - component: {fileID: 1086130194}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Jackson
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -730,7 +730,7 @@ GameObject:
   - component: {fileID: 1108261161}
   - component: {fileID: 1108261160}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Jack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -873,7 +873,7 @@ GameObject:
   - component: {fileID: 1115674221}
   - component: {fileID: 1115674220}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Back to Main
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1102,7 +1102,7 @@ GameObject:
   - component: {fileID: 1471599290}
   - component: {fileID: 1471599289}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Adam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1382,7 +1382,7 @@ GameObject:
   - component: {fileID: 1960697274}
   - component: {fileID: 1960697273}
   m_Layer: 0
-  m_Name: Uprooters_Sprites_54
+  m_Name: Wall Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
