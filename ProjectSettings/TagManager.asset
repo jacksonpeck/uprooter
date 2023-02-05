@@ -41,3 +41,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Dirt
+    uniqueID: 3325590435
+    locked: 0
+  - name: Water
+    uniqueID: 3994414801
+    locked: 0
+  - name: Roots
+    uniqueID: 3781685981
+    locked: 0
+  - name: Player
+    uniqueID: 4290205583
+    locked: 0
+  - name: UI
+    uniqueID: 1659457129
+    locked: 0
