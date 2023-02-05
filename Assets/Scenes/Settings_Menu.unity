@@ -490,7 +490,7 @@ MonoBehaviour:
   m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.0001
+  m_Value: 0.5
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -519,6 +519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mixer: {fileID: 24100000, guid: e2a0160f21e7c644aa0b0521b66b2e75, type: 2}
+  initDone: 0
 --- !u!1 &752006583
 GameObject:
   m_ObjectHideFlags: 0
