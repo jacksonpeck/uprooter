@@ -29,6 +29,12 @@ public class GameManager : MonoBehaviour
         GenerateLevel();
     }
 
+    private void FixedUpdate()
+    {
+        CullRoots();
+        UpdateRoots();
+    }
+
     private void GenerateLevel()
     {
         Cells = new Cell[_width, _height];
@@ -43,7 +49,8 @@ public class GameManager : MonoBehaviour
 
     public void RegenerateLevel()
     {
-        foreach (Transform child in this.transform) {
+        foreach (Transform child in this.transform)
+        {
              GameObject.Destroy(child.gameObject);
         }
 
@@ -251,16 +258,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void CullBranches()
+    private void CullRoots()
     {
         bool[] bondSafe = new bool[Bonds.Length];
         foreach (Bond bond in Bonds)
         {
-            CullBranch(bond, bondSafe);
+            CullRoot(bond, bondSafe);
         }
     }
 
-    private bool CullBranch(Bond bond, bool[] bondSafe)
+    private bool CullRoot(Bond bond, bool[] bondSafe)
     {
         if (bond == null || bond.Player == 0)
             return false;
@@ -268,26 +275,37 @@ public class GameManager : MonoBehaviour
         if (bond.HasWater() || bondSafe[bond.index])
             return (bondSafe[bond.index] = true);
 
-        if (CullBranch(bond.Cell1.BondLeft, bondSafe))
+        if (CullRoot(bond.Cell1.BondLeft, bondSafe))
             return (bondSafe[bond.index] = true);
-        if (CullBranch(bond.Cell1.BondRight, bondSafe))
+        if (CullRoot(bond.Cell1.BondRight, bondSafe))
             return (bondSafe[bond.index] = true);
-        if (CullBranch(bond.Cell1.BondUp, bondSafe))
+        if (CullRoot(bond.Cell1.BondUp, bondSafe))
             return (bondSafe[bond.index] = true);
-        if (CullBranch(bond.Cell1.BondDown, bondSafe))
+        if (CullRoot(bond.Cell1.BondDown, bondSafe))
             return (bondSafe[bond.index] = true);
 
-        if (CullBranch(bond.Cell2.BondLeft, bondSafe))
+        if (CullRoot(bond.Cell2.BondLeft, bondSafe))
             return (bondSafe[bond.index] = true);
-        if (CullBranch(bond.Cell2.BondRight, bondSafe))
+        if (CullRoot(bond.Cell2.BondRight, bondSafe))
             return (bondSafe[bond.index] = true);
-        if (CullBranch(bond.Cell2.BondUp, bondSafe))
+        if (CullRoot(bond.Cell2.BondUp, bondSafe))
             return (bondSafe[bond.index] = true);
-        if (CullBranch(bond.Cell2.BondDown, bondSafe))
+        if (CullRoot(bond.Cell2.BondDown, bondSafe))
             return (bondSafe[bond.index] = true);
 
         bond.Player = 0;
 
         return false;
+    }
+
+    private void UpdateRoots()
+    {
+        for (int x = 0; x < _width; x++)
+        {
+            for (int y = 0; y < _height; y++)
+            {
+                Cells[x, y].UpdateRoot();
+            }
+        }
     }
 }
