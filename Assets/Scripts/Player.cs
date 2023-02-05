@@ -60,6 +60,11 @@ public class Player : MonoBehaviour
             return;
         }
 
+        if (occupiedCell.HasWater())
+        {
+            occupiedCell.GetWater().StartDraining();
+        }
+
         Direction inputDir = DisambiguateInputVector(moveVec);
 
         if (inputDir != Direction.NONE)

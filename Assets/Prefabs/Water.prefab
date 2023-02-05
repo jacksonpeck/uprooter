@@ -97,4 +97,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aea69ebf34a18b446af02e87338f1560, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startingAmount: 0
+  _startingAmount: 30
+  drainSprites:
+  - {fileID: -1582548998, guid: 730dfa4cd642d774bb8db17bfdc18498, type: 3}
+  - {fileID: 355518082, guid: 730dfa4cd642d774bb8db17bfdc18498, type: 3}
+  - {fileID: 2046481697, guid: 730dfa4cd642d774bb8db17bfdc18498, type: 3}
+  - {fileID: -387428178, guid: 730dfa4cd642d774bb8db17bfdc18498, type: 3}
+  - {fileID: -671263650, guid: 730dfa4cd642d774bb8db17bfdc18498, type: 3}
