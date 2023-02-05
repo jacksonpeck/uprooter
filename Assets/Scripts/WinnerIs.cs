@@ -27,6 +27,9 @@ public class WinnerIs : MonoBehaviour
             case 4:
                 newSprite = spritePurple; 
                 break;
+            case 2:
+                newSprite = spriteRed;
+                break;
             default:
                 newSprite = spriteRed;
                 break;
