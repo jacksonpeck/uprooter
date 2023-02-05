@@ -15,6 +15,7 @@ public class WinnerIs : MonoBehaviour
 
     void Start()
     {
+        playerNum = GameManager.Instance.connectedPlayers[0].playerNum;
         switch( playerNum )
         {
             case 1:
