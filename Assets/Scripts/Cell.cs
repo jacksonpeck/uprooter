@@ -11,34 +11,20 @@ public enum CellType
 
 public class Cell : MonoBehaviour
 {
-    [SerializeField] private Sprite _dirtSprite, _rockSprite, _waterSprite;
+    [SerializeField] private GameObject _waterPrefab;
+    [SerializeField] private GameObject _rockPrefab;
     
     public Vector2Int Location;
 
-    private CellType _type;
     public CellType Type
     {
         get
         {
-            return _type;
-        }
-        set
-        {
-            _type = value;
-            switch (value)
-            {
-            case CellType.Dirt:
-                _renderer.sprite = _dirtSprite;
-                break;
-            case CellType.Rock:
-                _renderer.sprite = _rockSprite;
-                break;
-            case CellType.Water:
-                _renderer.sprite = _waterSprite;
-                break;
-            default:
-                break;
-            }
+            if (HasRock())
+                return CellType.Rock;
+            if (HasWater())
+                return CellType.Water;
+            return CellType.Dirt;
         }
     }
     
@@ -47,11 +33,35 @@ public class Cell : MonoBehaviour
     public Bond BondUp = null;
     public Bond BondDown = null;
 
+    private Water _water = null;
+    private Rock _rock = null;
 
     private SpriteRenderer _renderer;
 
     private void Awake()
     {
         _renderer = GetComponent<SpriteRenderer>();
+    }
+
+    public void AddWater()
+    {
+        _water = Instantiate(_waterPrefab, this.transform).GetComponent<Water>();
+        _water.transform.SetParent(this.transform);
+    }
+
+    public bool HasWater()
+    {
+        return _water != null;
+    }
+
+    public void AddRock()
+    {
+        _rock = Instantiate(_rockPrefab, this.transform).GetComponent<Rock>();
+        _rock.transform.SetParent(this.transform);
+    }
+
+    public bool HasRock()
+    {
+        return _rock != null;
     }
 }

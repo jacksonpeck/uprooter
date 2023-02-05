@@ -12,33 +12,71 @@ public enum SymmetryType
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
+
     [SerializeField] private int _width, _height;
     [SerializeField] private SymmetryType _mapSymmetry;
     [SerializeField] private int _rocksPerPlayer, _waterPerPlayer;
     [SerializeField] private GameObject _cellPrefab, _bondPrefab;
+    [SerializeField] private GameObject _wallPrefab, _cornerPrefab;
 
     public Cell[,] Cells;
-
-    public static GameManager Instance;
+    public Bond[] Bonds;
 
     private void Awake()
     {
-        Cells = new Cell[_width, _height];
+        GenerateLevel();
+    }
 
+    private void GenerateLevel()
+    {
+        Cells = new Cell[_width, _height];
+        Bonds = new Bond[2 * _width * _height - _width - _height];
+
+        GenerateWalls();
         GenerateDirt();
         GenerateWater();
         GenerateRock();
     }
 
+    public void RegenerateLevel()
+    {
+        foreach (Transform child in this.transform) {
+             GameObject.Destroy(child.gameObject);
+        }
+
+        GenerateLevel();
+    }
+
+    private void GenerateWalls()
+    {
+        Instantiate(_cornerPrefab, new Vector3(0.5f, 0.5f, 0f), Quaternion.Euler(0f, 0f, 90f));
+        Instantiate(_cornerPrefab, new Vector3(_width + 1.5f, 0.5f, 0f), Quaternion.Euler(0f, 0f, 180f));
+        Instantiate(_cornerPrefab, new Vector3(0.5f, _height + 1.5f, 0f), Quaternion.identity);
+        Instantiate(_cornerPrefab, new Vector3(_width + 1.5f, _height + 1.5f, 0f), Quaternion.Euler(0f, 0f, 270f));
+
+        for (int x = 1; x < _width + 1; x++)
+        {
+            Instantiate(_wallPrefab, new Vector3(x + 0.5f, 0.5f, 0f), Quaternion.Euler(0f, 0f, 180f));
+            Instantiate(_wallPrefab, new Vector3(x + 0.5f, _height + 1.5f, 0f), Quaternion.identity);
+        }
+
+        for (int y = 1; y < _height + 1; y++)
+        {
+            Instantiate(_wallPrefab, new Vector3(0.5f, y + 0.5f, 0f), Quaternion.Euler(0f, 0f, 90f));
+            Instantiate(_wallPrefab, new Vector3(_width + 1.5f, y + 0.5f, 0f), Quaternion.Euler(0f, 0f, 270f));
+        }
+    }
+
     private void GenerateDirt()
     {
+        int bondNumber = 0;
         for (int x = 0; x < _width; x++)
         {
             for (int y = 0; y < _height; y++)
             {
-                Cell cell = Instantiate(_cellPrefab, new Vector3(x + 0.5f, y + 0.5f, 0f), Quaternion.identity).GetComponent<Cell>();
+                Cell cell = Instantiate(_cellPrefab, new Vector3(x + 1.5f, y + 1.5f, 0f), Quaternion.identity).GetComponent<Cell>();
                 cell.transform.parent = this.transform;
-                cell.Type = CellType.Dirt;
                 cell.Location = new Vector2Int(x, y);
 
                 Cells[x, y] = cell;
@@ -59,10 +97,13 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    cell.BondRight = Instantiate(_bondPrefab, new Vector3(x + 1f, y + 0.5f, 0f), Quaternion.identity).GetComponent<Bond>();
+                    cell.BondRight = Instantiate(_bondPrefab, new Vector3(x + 2f, y + 1.5f, 0f), Quaternion.identity).GetComponent<Bond>();
                     cell.BondRight.transform.parent = cell.transform;
                     cell.BondRight.IsVertical = false;
                     cell.BondRight.Cell2 = cell;
+                    Bonds[bondNumber] = cell.BondRight;
+                    Bonds[bondNumber].index = bondNumber;
+                    bondNumber++;
                 }
 
                 if (y <= 0)
@@ -85,6 +126,9 @@ public class GameManager : MonoBehaviour
                     cell.BondUp.transform.parent = cell.transform;
                     cell.BondUp.IsVertical = true;
                     cell.BondUp.Cell2 = cell;
+                    Bonds[bondNumber] = cell.BondUp;
+                    Bonds[bondNumber].index = bondNumber;
+                    bondNumber++;
                 }
             }
         }
@@ -92,10 +136,10 @@ public class GameManager : MonoBehaviour
 
     private void GenerateWater()
     {
-        Cells[0, 0].Type = CellType.Water;
-        Cells[_width - 1, 0].Type = CellType.Water;
-        Cells[0, _height - 1].Type = CellType.Water;
-        Cells[_width - 1, _height - 1].Type = CellType.Water;
+        Cells[0, 0].AddWater();
+        Cells[_width - 1, 0].AddWater();
+        Cells[0, _height - 1].AddWater();
+        Cells[_width - 1, _height - 1].AddWater();
 
         switch (_mapSymmetry)
         {
@@ -130,10 +174,10 @@ public class GameManager : MonoBehaviour
                     break;
                 }
 
-                Cells[x, y].Type = CellType.Water;
-                Cells[_width - x - 1, y].Type = CellType.Water;
-                Cells[x, _height - y - 1].Type = CellType.Water;
-                Cells[_width - x - 1, _height - y - 1].Type = CellType.Water;
+                Cells[x, y].AddWater();
+                Cells[_width - x - 1, y].AddWater();
+                Cells[x, _height - y - 1].AddWater();
+                Cells[_width - x - 1, _height - y - 1].AddWater();
             }
             break;
 
@@ -175,10 +219,10 @@ public class GameManager : MonoBehaviour
                     break;
                 }
 
-                Cells[x, y].Type = CellType.Rock;
-                Cells[_width - x - 1, y].Type = CellType.Rock;
-                Cells[x, _height - y - 1].Type = CellType.Rock;
-                Cells[_width - x - 1, _height - y - 1].Type = CellType.Rock;
+                Cells[x, y].AddRock();
+                Cells[_width - x - 1, y].AddRock();
+                Cells[x, _height - y - 1].AddRock();
+                Cells[_width - x - 1, _height - y - 1].AddRock();
             }
             break;
 
@@ -188,5 +232,45 @@ public class GameManager : MonoBehaviour
         default:
             break;
         }
+    }
+
+    private void CullBranches()
+    {
+        bool[] bondSafe = new bool[Bonds.Length];
+        foreach (Bond bond in Bonds)
+        {
+            CullBranch(bond, bondSafe);
+        }
+    }
+
+    private bool CullBranch(Bond bond, bool[] bondSafe)
+    {
+        if (bond == null || bond.Player == 0)
+            return false;
+
+        if (bond.HasWater() || bondSafe[bond.index])
+            return (bondSafe[bond.index] = true);
+
+        if (CullBranch(bond.Cell1.BondLeft, bondSafe))
+            return (bondSafe[bond.index] = true);
+        if (CullBranch(bond.Cell1.BondRight, bondSafe))
+            return (bondSafe[bond.index] = true);
+        if (CullBranch(bond.Cell1.BondUp, bondSafe))
+            return (bondSafe[bond.index] = true);
+        if (CullBranch(bond.Cell1.BondDown, bondSafe))
+            return (bondSafe[bond.index] = true);
+
+        if (CullBranch(bond.Cell2.BondLeft, bondSafe))
+            return (bondSafe[bond.index] = true);
+        if (CullBranch(bond.Cell2.BondRight, bondSafe))
+            return (bondSafe[bond.index] = true);
+        if (CullBranch(bond.Cell2.BondUp, bondSafe))
+            return (bondSafe[bond.index] = true);
+        if (CullBranch(bond.Cell2.BondDown, bondSafe))
+            return (bondSafe[bond.index] = true);
+
+        bond.Player = 0;
+
+        return false;
     }
 }

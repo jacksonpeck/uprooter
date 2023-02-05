@@ -2,21 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum BondState 
-{
-    None,
-    Player1,
-    Player2,
-    Player3,
-    Player4
-}
-
 public class Bond : MonoBehaviour
 {
-    public BondState State;
+    public int Player = 0;
     public bool IsVertical;
     public Cell Cell1 = null;
     public Cell Cell2 = null;
+    public int index;
 
     public Cell OtherCell(Cell cell)
     {
@@ -29,5 +21,10 @@ public class Bond : MonoBehaviour
             return Cell1;
         }
         return null;
+    }
+
+    public bool HasWater()
+    {
+        return Cell1.HasWater() || Cell2.HasWater();
     }
 }
