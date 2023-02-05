@@ -129,6 +129,9 @@ public class RootRenderer : MonoBehaviour
         }
 
         if (spriteIndex != _spriteIndex)
+        {
             _renderer.sprite = _rootSprites[spriteIndex];
+            _spriteIndex = spriteIndex;
+        }
     }
 }
