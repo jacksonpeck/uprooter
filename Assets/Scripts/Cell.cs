@@ -76,5 +76,23 @@ public class Cell : MonoBehaviour
         int down = BondDown == null ? 0 : BondDown.Player;
         
         _branch.UpdateSprite(left, right, up, down);
+	}
+
+	// Checks all bonds. If any of them belong to a player, returns that player's ID.
+    // We assume that a tile is occupied by a root if a player owns a bond that leads to it.
+    // Returns 0 if this tile is deemed unoccupied.
+    public int Occupancy()
+    {
+        Bond[] bonds = { BondLeft, BondRight, BondUp, BondDown };
+
+        for (int i = 0; i < bonds.Length; i++)
+        {
+            if (bonds[i] != null && bonds[i].Player != 0)
+            {
+                return bonds[i].Player;
+            }
+        }
+
+        return 0;
     }
 }
