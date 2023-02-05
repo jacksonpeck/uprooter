@@ -46,4 +46,4 @@ public class ChangeText : MonoBehaviour
         renderer.sprite = newSprite;
         renderer.transform.localScale = new Vector3( 20, 20, 0 );
     }
-    }
+}

@@ -99,6 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _waterPrefab: {fileID: 7650297028416589148, guid: c0c70fb0c6ff6424288707f513b327b6, type: 3}
   _rockPrefab: {fileID: 7650297028416589148, guid: 3ec2e60be6b99834ba21c3233b472bbd, type: 3}
+  _rootPrefab: {fileID: 2744533355863156130, guid: 2cc9a1cd6dc76c54ba8d00598d24d9c6, type: 3}
   Location: {x: 0, y: 0}
   BondLeft: {fileID: 0}
   BondRight: {fileID: 0}

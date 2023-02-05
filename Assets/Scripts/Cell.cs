@@ -13,6 +13,7 @@ public class Cell : MonoBehaviour
 {
     [SerializeField] private GameObject _waterPrefab;
     [SerializeField] private GameObject _rockPrefab;
+    [SerializeField] private GameObject _rootPrefab;
     
     public Vector2Int Location;
 
@@ -37,10 +38,12 @@ public class Cell : MonoBehaviour
     private Rock _rock = null;
 
     private SpriteRenderer _renderer;
+    private RootRenderer _branch;
 
     private void Awake()
     {
         _renderer = GetComponent<SpriteRenderer>();
+        _branch = Instantiate(_rootPrefab, this.transform.position, Quaternion.identity).GetComponent<RootRenderer>();
     }
 
     public void AddWater()
@@ -63,5 +66,33 @@ public class Cell : MonoBehaviour
     public bool HasRock()
     {
         return _rock != null;
+    }
+
+    public void UpdateRoot()
+    {
+        int left = BondLeft == null ? 0 : BondLeft.Player;
+        int right = BondRight == null ? 0 : BondRight.Player;
+        int up = BondUp == null ? 0 : BondUp.Player;
+        int down = BondDown == null ? 0 : BondDown.Player;
+        
+        _branch.UpdateSprite(left, right, up, down);
+	}
+
+	// Checks all bonds. If any of them belong to a player, returns that player's ID.
+    // We assume that a tile is occupied by a root if a player owns a bond that leads to it.
+    // Returns 0 if this tile is deemed unoccupied.
+    public int Occupancy()
+    {
+        Bond[] bonds = { BondLeft, BondRight, BondUp, BondDown };
+
+        for (int i = 0; i < bonds.Length; i++)
+        {
+            if (bonds[i] != null && bonds[i].Player != 0)
+            {
+                return bonds[i].Player;
+            }
+        }
+
+        return 0;
     }
 }

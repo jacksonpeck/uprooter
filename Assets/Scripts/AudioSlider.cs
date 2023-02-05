@@ -14,7 +14,7 @@ public class AudioSlider : MonoBehaviour
         if(initDone == false)
              {
                  initDone = true;
-                 mixer.SetFloat( "Vol", Mathf.Log10( 0.5f ) * 20 );
+                 mixer.SetFloat( "Vol", Mathf.Log10( 1f ) * 20 );
              }
     }
     public void setLevel( float sliderValue )
