@@ -47,9 +47,8 @@ public class RootRenderer : MonoBehaviour
         if (right > 0) rootCount++;
         if (up > 0) rootCount++;
         if (down > 0) rootCount++;
-
-        if (_spriteIndex < 0)
-            _renderer.enabled = true;
+        
+        _renderer.enabled = true;
 
         int spriteIndex;
 
