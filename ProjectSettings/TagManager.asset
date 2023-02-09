@@ -44,11 +44,17 @@ TagManager:
   - name: Dirt
     uniqueID: 3325590435
     locked: 0
-  - name: Water
-    uniqueID: 3994414801
+  - name: Wall
+    uniqueID: 1708299931
+    locked: 0
+  - name: Rock
+    uniqueID: 160980635
     locked: 0
   - name: Roots
     uniqueID: 3781685981
+    locked: 0
+  - name: Water
+    uniqueID: 3994414801
     locked: 0
   - name: Player
     uniqueID: 4290205583
